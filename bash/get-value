@@ -1,0 +1,39 @@
+#!/bin/bash
+
+function usage {
+  echo "Usage: get-value <db> <key>"
+  exit 1
+}
+
+if [ "$1" = "-h" ]
+then
+  usage
+fi
+
+db="$1"
+key="$2"
+
+if [ -z "$db" ]
+then
+  echo "db not supplied"
+  usage
+fi
+
+if [ -z "$key" ]
+then
+  echo "key not supplied"
+  usage
+fi
+
+line=$(tac "${db}" | grep -m1 -E "^(update|delete)\t${key}(\t.*?)?$")
+if [ -z "$line" ]
+then
+  # Not an error, just means there is nothing to process
+	exit 0
+fi
+
+operation=$(echo "$line" | cut -f1)
+if [ "$operation" = "update" ]
+then
+  echo "$line" | cut -f3
+fi

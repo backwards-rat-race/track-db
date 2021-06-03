@@ -1,0 +1,28 @@
+#!/bin/bash
+
+function usage {
+  echo "Usage: find-keys <db> <regex>"
+  exit 1
+}
+
+if [ "$1" = "-h" ]
+then
+  usage
+fi
+
+db="$1"
+regex="$2"
+
+if [ -z "$db" ]
+then
+  echo "db not supplied"
+  usage
+fi
+
+if [ -z "$regex" ]
+then
+  echo "regex not supplied"
+  usage
+fi
+
+cut -f2 "$db" | uniq | grep -E "$regex"

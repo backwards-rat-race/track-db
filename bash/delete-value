@@ -1,0 +1,28 @@
+#!/bin/bash
+
+function usage {
+  echo "Usage: delete-value <db> <key>"
+  exit 1
+}
+
+if [ "$1" = "-h" ]
+then
+  usage
+fi
+
+db="$1"
+key="$2"
+
+if [ -z "$db" ]
+then
+  echo "db not supplied"
+  usage
+fi
+
+if [ -z "$key" ]
+then
+  echo "key not supplied"
+  usage
+fi
+
+echo "delete	$key" >> "$db"

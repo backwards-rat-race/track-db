@@ -1,0 +1,30 @@
+#!/bin/bash
+
+function usage {
+  echo "Usage: set-value <db> <key> [<value>]"
+  exit 1
+}
+
+if [ "$1" = "-h" ]
+then
+  usage
+fi
+
+db="$1"
+key="$2"
+# JSON escape value
+value="$3"
+
+if [ -z "$db" ]
+then
+  echo "db not supplied"
+  usage
+fi
+
+if [ -z "$key" ]
+then
+  echo "key not supplied"
+  usage
+fi
+
+echo "update	$key	$value" >> "$db"
